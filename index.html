@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vida Sin Deudas: Guía Completa para tu Libertad Financiera</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --purple-deep: #0F0818;
+      --purple-dark: #1C1028;
+      --purple-mid: #2D1B4E;
+      --purple-light: #4A2C7A;
+      --purple-muted: #3D2A5C;
+      --gold: #CA8A04;
+      --gold-light: #F0D68A;
+      --gold-bright: #EAB308;
+      --cream: #FAF9F6;
+      --purple-cream: #F3EFF8;
+      --dark: #1C1917;
+      --gray: #57534E;
+      --gray-light: #A8A29E;
+      --white: #FFFFFF;
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--dark);
+      background: var(--cream);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── LUCIDE ICON BASE ── */
+    .icon {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      flex-shrink: 0;
+    }
+    .icon-lg { width: 28px; height: 28px; }
+    .icon-sm { width: 18px; height: 18px; }
+
+    /* ── HERO BANNER ── */
+    .hero-banner {
+      position: relative;
+      min-height: auto;
+      padding: 60px 24px 80px;
+      background: linear-gradient(170deg, var(--purple-deep) 0%, var(--purple-mid) 100%);
+      color: var(--white);
+    }
+
+    .hero-banner-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text {
+      text-align: left;
+    }
+
+    .hero-banner h1 {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-banner h1 .gold { color: var(--gold-light); }
+
+    .hero-banner p {
+      font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+      color: rgba(255,255,255,0.75);
+      max-width: 480px;
+      margin: 0 0 28px;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .hero-price {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .hero-price-current {
+      font-family: 'Cormorant', serif;
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+
+    .hero-price-original {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.35);
+      text-decoration: line-through;
+    }
+
+    .hero-price-save {
+      background: rgba(202,138,4,0.2);
+      color: var(--gold-light);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-book-display {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-book-display img {
+      max-width: 340px;
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      filter: drop-shadow(-16px 16px 40px rgba(0,0,0,0.45)) drop-shadow(0 0 50px rgba(202,138,4,0.1));
+    }
+
+    .hero-guarantee {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+    }
+
+    @media (max-width: 768px) {
+      .hero-banner { padding: 40px 24px 60px; }
+      .hero-banner-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        text-align: center;
+      }
+      .hero-text { text-align: center; }
+      .hero-book-display { order: -1; }
+      .hero-book-display img { max-width: 240px; }
+      .hero-price { justify-content: center; }
+      .hero-banner p { margin: 0 auto 28px; }
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.4);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      animation: float 2.5s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── CTA BUTTON ── */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
+      color: var(--purple-deep);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 18px 44px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.25s ease-out;
+      box-shadow: 0 6px 24px rgba(202,138,4,0.35);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      position: relative;
+      animation: pulse-glow 2.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: 0 6px 24px rgba(202,138,4,0.35);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 6px 44px rgba(202,138,4,0.6), 0 0 16px rgba(202,138,4,0.2);
+        transform: scale(1.025);
+      }
+    }
+
+    .cta-btn:hover {
+      transform: scale(1.04) !important;
+      box-shadow: 0 8px 36px rgba(202,138,4,0.55);
+      animation-play-state: paused;
+    }
+
+    .cta-btn .icon { width: 18px; height: 18px; stroke-width: 2.5; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cta-btn { animation: none; }
+      .scroll-indicator { animation: none; }
+      .fade-up { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* ── BOOK SECTION ── */
+    .book-section {
+      padding: 100px 24px;
+      background: linear-gradient(170deg, var(--purple-deep) 0%, var(--purple-mid) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .book-section::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -8%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(202,138,4,0.1) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+
+    .book-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .book-text {
+      color: var(--white);
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(202,138,4,0.15);
+      border: 1px solid rgba(202,138,4,0.4);
+      color: var(--gold-light);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 50px;
+      margin-bottom: 24px;
+    }
+
+    .book-section h2 {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .book-section h2 .gold { color: var(--gold-light); }
+
+    .book-subtitle {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 36px;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 36px;
+      margin-bottom: 40px;
+      justify-content: center;
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-number {
+      font-family: 'Cormorant', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      display: block;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 500;
+    }
+
+    .book-guarantee {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      font-weight: 400;
+    }
+
+    .book-display {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .book-display img {
+      max-width: 380px;
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      filter: drop-shadow(-16px 16px 40px rgba(0,0,0,0.45)) drop-shadow(0 0 50px rgba(202,138,4,0.1));
+      transition: transform 0.4s ease-out;
+    }
+
+    .book-display img:hover { transform: scale(1.02); }
+
+    /* ── SECTION COMMON ── */
+    .container { max-width: 1000px; margin: 0 auto; }
+
+    .section-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .section-title {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      color: var(--dark);
+      text-align: center;
+      letter-spacing: -0.02em;
+    }
+
+    .section-desc {
+      font-size: 1rem;
+      color: var(--gray);
+      max-width: 600px;
+      margin: 0 auto 52px;
+      line-height: 1.8;
+      text-align: center;
+      font-weight: 400;
+    }
+
+    /* ── PAIN SECTION ── */
+    .pain {
+      padding: 100px 24px;
+      background: var(--white);
+    }
+
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .pain-card {
+      background: var(--cream);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      border-left: 3px solid var(--purple-muted);
+      transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+      cursor: default;
+    }
+
+    .pain-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+
+    .pain-card-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--purple-cream);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      color: var(--purple-light);
+    }
+
+    .pain-card h3 {
+      font-family: 'Cormorant', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .pain-card p {
+      font-size: 0.9rem;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 100px 24px;
+      background: var(--cream);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: all 0.25s ease-out;
+      border: 1px solid rgba(0,0,0,0.04);
+      text-align: center;
+      cursor: default;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.07);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, var(--purple-mid), var(--purple-dark));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      color: var(--gold-light);
+    }
+
+    .feature-card h3 {
+      font-family: 'Cormorant', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      color: var(--gray);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    /* ── CHAPTERS ── */
+    .chapters {
+      padding: 100px 24px;
+      background: var(--white);
+    }
+
+    .chapter-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 48px;
+    }
+
+    .chapter-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 22px;
+      background: var(--cream);
+      border-radius: 12px;
+      transition: all 0.2s ease-out;
+      cursor: default;
+    }
+
+    .chapter-item:hover {
+      background: var(--purple-cream);
+      transform: translateX(4px);
+    }
+
+    .chapter-num {
+      min-width: 38px;
+      height: 38px;
+      background: var(--purple-dark);
+      color: var(--gold-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .chapter-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--dark);
+      line-height: 1.4;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials {
+      padding: 100px 24px;
+      background: linear-gradient(170deg, var(--purple-deep) 0%, var(--purple-mid) 100%);
+      color: var(--white);
+    }
+
+    .testimonials .section-label { color: var(--gold-light); }
+    .testimonials .section-title { color: var(--white); }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 52px;
+    }
+
+    .testimonial-card {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 36px 32px;
+    }
+
+    .stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 18px;
+      color: var(--gold);
+    }
+
+    .testimonial-card blockquote {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 24px;
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .author-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--purple-dark);
+      font-size: 0.85rem;
+    }
+
+    .author-name { font-weight: 600; font-size: 0.9rem; }
+    .author-detail { font-size: 0.78rem; color: rgba(255,255,255,0.45); }
+
+    /* ── BONUSES ── */
+    .bonuses {
+      padding: 100px 24px;
+      background: var(--cream);
+    }
+
+    .bonus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 52px;
+    }
+
+    .bonus-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      border: 1.5px solid rgba(202,138,4,0.3);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s ease-out;
+      cursor: default;
+      text-align: center;
+    }
+
+    .bonus-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 8px 24px rgba(202,138,4,0.1);
+      transform: translateY(-3px);
+    }
+
+    .bonus-card-ribbon {
+      position: absolute;
+      top: 14px;
+      right: -30px;
+      background: var(--gold);
+      color: var(--purple-deep);
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      padding: 4px 38px;
+      transform: rotate(45deg);
+    }
+
+    .bonus-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(202,138,4,0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      color: var(--gold);
+    }
+
+    .bonus-card h3 {
+      font-family: 'Cormorant', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--purple-dark);
+    }
+
+    .bonus-card p {
+      color: var(--gray);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    .bonus-value {
+      display: inline-block;
+      margin-top: 14px;
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── COUNTDOWN ── */
+    .countdown-bar {
+      background: linear-gradient(135deg, #7C3AED, #4C1D95);
+      color: white;
+      text-align: center;
+      padding: 14px 24px;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+    .countdown-bar strong { color: var(--gold-light); }
+    .countdown-timer {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      margin-left: 10px;
+    }
+    .countdown-unit {
+      background: rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      min-width: 36px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .countdown-sep { font-weight: 700; opacity: 0.7; }
+
+    /* ── PRICING ── */
+    .pricing {
+      padding: 100px 24px;
+      background: var(--white);
+      text-align: center;
+    }
+
+    .price-card {
+      max-width: 520px;
+      margin: 52px auto 0;
+      background: linear-gradient(170deg, var(--purple-deep), var(--purple-mid));
+      border-radius: 24px;
+      padding: 52px 44px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .price-card::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -25%;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(202,138,4,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .price-label {
+      font-size: 0.72rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .price-amount {
+      font-family: 'Cormorant', serif;
+      font-size: 4.5rem;
+      font-weight: 700;
+      margin-bottom: 0;
+      line-height: 1;
+    }
+
+    .price-original {
+      text-decoration: line-through;
+      color: rgba(255,255,255,0.35);
+      font-size: 1.1rem;
+      margin-bottom: 28px;
+      font-weight: 300;
+    }
+
+    .price-includes {
+      text-align: left;
+      margin: 32px 0;
+      list-style: none;
+    }
+
+    .price-includes li {
+      padding: 11px 0;
+      font-size: 0.92rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-weight: 400;
+    }
+
+    .price-includes li:last-child { border-bottom: none; }
+
+    .check-icon {
+      width: 22px;
+      height: 22px;
+      background: rgba(202,138,4,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold-light);
+    }
+
+    .check-icon .icon { width: 13px; height: 13px; stroke-width: 3; }
+
+    .price-card .cta-btn {
+      width: 100%;
+      justify-content: center;
+      margin-top: 12px;
+      font-size: 1.05rem;
+      padding: 20px 44px;
+    }
+
+    .price-guarantee {
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ── FAQ ── */
+    .faq {
+      padding: 100px 24px;
+      background: var(--purple-cream);
+    }
+
+    .faq-list {
+      max-width: 680px;
+      margin: 52px auto 0;
+    }
+
+    .faq-item {
+      background: var(--white);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 22px 26px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--dark);
+      transition: color 0.2s;
+      gap: 16px;
+    }
+
+    .faq-question:hover { color: var(--purple-light); }
+
+    .faq-arrow {
+      transition: transform 0.3s ease;
+      color: var(--purple-light);
+      flex-shrink: 0;
+    }
+
+    .faq-item.active .faq-arrow { transform: rotate(180deg); }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+
+    .faq-answer-inner {
+      padding: 0 26px 22px;
+      color: var(--gray);
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    .faq-item.active .faq-answer { max-height: 300px; }
+
+    /* ── FINAL CTA ── */
+    .final-cta {
+      padding: 100px 24px;
+      background: linear-gradient(170deg, var(--purple-deep), var(--purple-mid));
+      text-align: center;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(202,138,4,0.06) 0%, transparent 60%);
+      border-radius: 50%;
+    }
+
+    .final-cta .container { position: relative; z-index: 1; }
+
+    .final-cta h2 {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .final-cta p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.6);
+      max-width: 540px;
+      margin: 0 auto 44px;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--purple-deep);
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 0.8rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .chapter-list { grid-template-columns: 1fr; }
+      .author-card { flex-direction: column; text-align: center; padding: 28px !important; }
+
+      .price-card { padding: 40px 28px; }
+      .price-amount { font-size: 3.5rem; }
+
+      .cta-btn {
+        padding: 16px 32px;
+        font-size: 0.9rem;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .stats-row { gap: 24px; }
+      .stat-number { font-size: 2rem; }
+    }
+
+    /* ── FLOATING WHATSAPP BUTTON ── */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 60px;
+      height: 60px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+      z-index: 99;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+    }
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 24px rgba(37, 211, 102, 0.6);
+    }
+    .whatsapp-float svg {
+      width: 32px;
+      height: 32px;
+      fill: #fff;
+    }
+    .whatsapp-tooltip {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: #fff;
+      color: var(--dark);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      z-index: 99;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: tooltip-pop 0.4s ease-out 3s forwards;
+      max-width: 200px;
+    }
+    .whatsapp-tooltip::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      right: 24px;
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      transform: rotate(45deg);
+    }
+    @keyframes tooltip-pop {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .whatsapp-float { bottom: 80px; right: 16px; width: 54px; height: 54px; }
+      .whatsapp-float svg { width: 28px; height: 28px; }
+      .whatsapp-tooltip { bottom: 140px; right: 16px; }
+    }
+
+    /* ── FLOATING CTA (mobile) ── */
+    .floating-cta {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--purple-deep);
+      padding: 14px 20px;
+      z-index: 100;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+    }
+
+    .floating-cta .cta-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 15px;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      .floating-cta { display: block; }
+      footer { padding-bottom: 90px; }
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════ HERO BANNER ════ -->
+  <section class="hero-banner">
+    <div class="hero-banner-inner">
+      <div class="hero-text">
+        <span class="badge">Guía completa de finanzas personales</span>
+        <h1>Sal de deudas en 6 a 12 meses con un <span class="gold">sistema de 5 pasos</span></h1>
+        <p>15 capítulos, 50+ ejercicios prácticos, plantillas de Excel y 6 bonos incluidos. Todo lo que necesitas para tomar el control de tu dinero.</p>
+        <div class="hero-price">
+          <span class="hero-price-current">$37</span>
+          <span class="hero-price-original">$204 USD</span>
+          <span class="hero-price-save">AHORRA 82%</span>
+        </div>
+        <a href="https://pay.hotmart.com/A102578569Y?off=jezg3we9" class="cta-btn">
+          Descargar mi guía por $37
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="hero-guarantee">Acceso inmediato · Pago 100% seguro · PDF + Excel</p>
+      </div>
+      <div class="hero-book-display">
+        <img src="book-cover.png" alt="Vida Sin Deudas: Ebook de libertad financiera" loading="eager">
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ WHAT'S INSIDE (Content Preview) ════ -->
+  <section class="book-section">
+    <div class="container fade-up" style="max-width: 1100px; text-align: center;">
+      <span class="badge">Mira lo que recibes</span>
+      <h2 style="color: var(--white); font-family: 'Cormorant', serif; font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.15; margin-bottom: 16px;">Esto es lo que hay dentro <span class="gold">del paquete completo</span></h2>
+      <p style="color: rgba(255,255,255,0.6); max-width: 560px; margin: 0 auto 48px; line-height: 1.8; font-weight: 300;">No es solo un ebook. Es un sistema completo con herramientas listas para usar desde el día uno.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; text-align: left;">
+        <div style="background: rgba(255,255,255,0.06); border-radius: 16px; padding: 28px; border: 1px solid rgba(255,255,255,0.08);">
+          <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold-light); margin-bottom: 12px; font-weight: 600;">📖 Ebook principal</div>
+          <h3 style="font-family: 'Cormorant', serif; font-size: 1.2rem; color: var(--white); margin-bottom: 8px;">15 capítulos paso a paso</h3>
+          <p style="color: rgba(255,255,255,0.6); font-size: 0.88rem; line-height: 1.7;">Desde diagnosticar tus finanzas hasta automatizar tu camino a la libertad. Incluye ejercicios prácticos en cada capítulo.</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.06); border-radius: 16px; padding: 28px; border: 1px solid rgba(255,255,255,0.08);">
+          <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold-light); margin-bottom: 12px; font-weight: 600;">📊 Plantillas de Excel</div>
+          <h3 style="font-family: 'Cormorant', serif; font-size: 1.2rem; color: var(--white); margin-bottom: 8px;">Control de gastos + Presupuesto PRO</h3>
+          <p style="color: rgba(255,255,255,0.6); font-size: 0.88rem; line-height: 1.7;">Hojas de cálculo con fórmulas automáticas. Ingresa tus números y el sistema hace el trabajo. Compatible con Google Sheets.</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.06); border-radius: 16px; padding: 28px; border: 1px solid rgba(255,255,255,0.08);">
+          <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold-light); margin-bottom: 12px; font-weight: 600;">🧮 Toolkit financiero</div>
+          <h3 style="font-family: 'Cormorant', serif; font-size: 1.2rem; color: var(--white); margin-bottom: 8px;">Calculadoras y planificadores</h3>
+          <p style="color: rgba(255,255,255,0.6); font-size: 0.88rem; line-height: 1.7;">Calculadora de deuda, rastreador de gastos y planificador de ahorro. Ve exactamente cuándo estarás libre de deudas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ PAIN POINTS ════ -->
+  <section class="pain">
+    <div class="container fade-up">
+      <span class="section-label">El problema</span>
+      <h2 class="section-title">Más del 70 % de las familias<br>viven atrapadas en deudas</h2>
+      <p class="section-desc">No es falta de inteligencia. No es mala suerte. Es falta de un sistema, de educación financiera y, sobre todo, de la mentalidad correcta.</p>
+      <div class="pain-grid">
+        <div class="pain-card">
+          <div class="pain-card-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <h3>El ciclo interminable</h3>
+          <p>Trabajas, ganas dinero, pero al final del mes no queda nada. Las deudas siguen ahí y los intereses se acumulan en silencio.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-card-icon"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <h3>La trampa del pago mínimo</h3>
+          <p>Una deuda de $3,000 USD pagando solo el mínimo puede tardar más de 6 años en saldarse. Terminas pagando 2.4 veces el valor original.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-card-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></div>
+          <h3>El costo emocional</h3>
+          <p>Estrés crónico, insomnio, conflictos de pareja. El dinero es la causa número uno de divorcio y la principal fuente de ansiedad en adultos.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-card-icon"><svg class="icon" viewBox="0 0 24 24"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></svg></div>
+          <h3>El costo de oportunidad</h3>
+          <p>Si invirtieras $300 al mes en vez de pagar intereses, en 10 años tendrías $55,000 USD. El interés compuesto puede trabajar a tu favor o en tu contra.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-card-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+          <h3>Educación que nunca recibimos</h3>
+          <p>Solo el 32 % de los adultos en México tienen alfabetismo financiero. Nadie nos enseñó sobre dinero en la escuela. Hasta ahora.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-card-icon"><svg class="icon" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg></div>
+          <h3>Crédito fácil, trampa diseñada</h3>
+          <p>Las tarjetas, los préstamos exprés, las compras a meses «sin intereses». Todo está diseñado para mantenerte dentro del ciclo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ FEATURES ════ -->
+  <section class="features">
+    <div class="container fade-up">
+      <span class="section-label">La solución</span>
+      <h2 class="section-title">Un sistema probado para<br>transformar tus finanzas</h2>
+      <p class="section-desc">Este no es otro libro sobre finanzas. Es una guía de transformación completa que cambiará cómo piensas, actúas y te relacionas con el dinero.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/></svg></div>
+          <h3>Mentalidad financiera</h3>
+          <p>Reprograma tu relación con el dinero usando principios de neurociencia. Pasa de una mentalidad de escasez a una de abundancia.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+          <h3>Sistema Vida Sin Deudas</h3>
+          <p>5 pasos probados y aplicables para diagnosticar, planificar y liquidar tus deudas de forma estratégica y definitiva.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <h3>Automatización financiera</h3>
+          <p>Aprende a automatizar pagos, ahorro e inversiones para que tu dinero trabaje sin que tengas que pensar en ello.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg class="icon" viewBox="0 0 24 24"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <h3>Aumenta tus ingresos</h3>
+          <p>Estrategias reales para incrementar tu flujo de efectivo sin trabajar más horas: desde negociación salarial hasta ingresos pasivos.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 9 7 12 7s5-3 7.5-3a2.5 2.5 0 0 1 0 5H18"/><path d="M12 7v10"/><path d="M3 17h18"/><path d="M7 17v4"/><path d="M17 17v4"/></svg></div>
+          <h3>Hábitos que se mantienen</h3>
+          <p>Construye hábitos financieros sólidos basados en ciencia del comportamiento. Sin fuerza de voluntad; con sistemas que funcionan.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 9 7 12 7s5-3 7.5-3a2.5 2.5 0 0 1 0 5H18"/><path d="M12 7v10"/><path d="M8 17h8"/><path d="M10 21h4"/></svg></div>
+          <h3>Libertad financiera real</h3>
+          <p>No solo salir de deudas: planifica una vida donde el dinero sea herramienta de libertad, no fuente de estrés.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ CHAPTERS ════ -->
+  <section class="chapters">
+    <div class="container fade-up">
+      <span class="section-label">Contenido completo</span>
+      <h2 class="section-title">15 capítulos que transformarán<br>tu vida financiera</h2>
+      <div class="chapter-list">
+        <div class="chapter-item"><span class="chapter-num">01</span><span class="chapter-title">¿Por qué nos endeudamos? La raíz del problema</span></div>
+        <div class="chapter-item"><span class="chapter-num">02</span><span class="chapter-title">El verdadero costo de vivir endeudado</span></div>
+        <div class="chapter-item"><span class="chapter-num">03</span><span class="chapter-title">Las 5 trampas financieras más comunes</span></div>
+        <div class="chapter-item"><span class="chapter-num">04</span><span class="chapter-title">Mentalidad de escasez vs. abundancia</span></div>
+        <div class="chapter-item"><span class="chapter-num">05</span><span class="chapter-title">Tu identidad financiera: ¿quién eres frente al dinero?</span></div>
+        <div class="chapter-item"><span class="chapter-num">06</span><span class="chapter-title">El dinero como herramienta, no como enemigo</span></div>
+        <div class="chapter-item"><span class="chapter-num">07</span><span class="chapter-title">Diagnóstico financiero sin miedo</span></div>
+        <div class="chapter-item"><span class="chapter-num">08</span><span class="chapter-title">El plan paso a paso: Sistema Vida Sin Deudas</span></div>
+        <div class="chapter-item"><span class="chapter-num">09</span><span class="chapter-title">Aumenta tu flujo de efectivo sin trabajar más</span></div>
+        <div class="chapter-item"><span class="chapter-num">10</span><span class="chapter-title">El presupuesto que funciona para ti</span></div>
+        <div class="chapter-item"><span class="chapter-num">11</span><span class="chapter-title">Automatiza tu libertad financiera</span></div>
+        <div class="chapter-item"><span class="chapter-num">12</span><span class="chapter-title">Construye hábitos que se mantienen</span></div>
+        <div class="chapter-item"><span class="chapter-num">13</span><span class="chapter-title">Cómo mantenerte libre de deudas para siempre</span></div>
+        <div class="chapter-item"><span class="chapter-num">14</span><span class="chapter-title">Planifica tu libertad financiera real</span></div>
+        <div class="chapter-item"><span class="chapter-num">15</span><span class="chapter-title">Transforma tu historia</span></div>
+        <div class="chapter-item" style="border-left: 3px solid var(--gold);">
+          <span class="chapter-num" style="background: var(--gold); color: var(--purple-deep);">+</span>
+          <span class="chapter-title">Conclusión: La verdadera libertad. Paz, claridad y propósito</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ TESTIMONIALS ════ -->
+  <section class="testimonials">
+    <div class="container fade-up">
+      <span class="section-label">Historias reales</span>
+      <h2 class="section-title">Personas como tú ya cambiaron<br>su historia financiera</h2>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="stars"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <blockquote>«Lo que me convenció fue la calculadora de deuda del toolkit. Metí mis 4 tarjetas y vi que pagando solo el mínimo iba a tardar 7 años. Seguí el método del capítulo 8 (avalancha) y ya llevo 3 tarjetas pagadas en 11 meses.»</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">M</div>
+            <div><div class="author-name">María G.</div><div class="author-detail">Lectora verificada</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <blockquote>«Los primeros 3 capítulos sobre mentalidad me pegaron duro. Me di cuenta de que repetía los mismos patrones de mis padres con el dinero. La plantilla de presupuesto PRO me ayudó a ver dónde se me iban $400 al mes sin darme cuenta. Hoy ahorro el 20% de mi quincena.»</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">C</div>
+            <div><div class="author-name">Carlos R.</div><div class="author-detail">Lector verificado</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <blockquote>«La guía de negociación con bancos vale más que los $37. Llamé a mi banco usando el guion del email #3 y me bajaron la tasa de interés de 24% a 14%. Solo con eso ya me ahorré más de lo que costó todo el paquete.»</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">A</div>
+            <div><div class="author-name">Ana L.</div><div class="author-detail">Lectora verificada</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ BONUSES ════ -->
+  <section class="bonuses">
+    <div class="container fade-up">
+      <span class="section-label">Incluido con tu compra</span>
+      <h2 class="section-title">Bonos exclusivos para<br>acelerar tu transformación</h2>
+      <div class="bonus-grid">
+        <div class="bonus-card">
+          <span class="bonus-card-ribbon">BONUS</span>
+          <div class="bonus-icon"><svg class="icon" viewBox="0 0 24 24"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></svg></div>
+          <h3>Guía de inversiones para principiantes</h3>
+          <p>Guía práctica paso a paso que te enseña los fundamentos de la inversión: desde cómo funciona el interés compuesto hasta cómo elegir tu primer instrumento financiero. Incluye estrategias de ahorro inteligente y un plan de acción.</p>
+          <span class="bonus-value">Valor: $39 USD</span>
+        </div>
+        <div class="bonus-card">
+          <span class="bonus-card-ribbon">BONUS</span>
+          <div class="bonus-icon"><svg class="icon" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></div>
+          <h3>Acceso a la comunidad en Telegram</h3>
+          <p>Únete a un grupo exclusivo de personas que, como tú, están en el camino hacia la libertad financiera. Comparte avances, resuelve dudas y mantén la motivación con apoyo real.</p>
+          <span class="bonus-value">Valor: $49 USD</span>
+        </div>
+        <div class="bonus-card">
+          <span class="bonus-card-ribbon">BONUS</span>
+          <div class="bonus-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <h3>Guía de negociación con bancos</h3>
+          <p>Guiones listos para usar que te muestran exactamente qué decir cuando llames a tu banco para negociar tasas de interés, reestructurar pagos o solicitar condonación de deuda.</p>
+          <span class="bonus-value">Valor: $29 USD</span>
+        </div>
+        <div class="bonus-card">
+          <span class="bonus-card-ribbon">BONUS</span>
+          <div class="bonus-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 12h4"/><path d="M10 16h4"/></svg></div>
+          <h3>Plantillas de presupuesto PRO</h3>
+          <p>Hojas de cálculo listas para usar con fórmulas automáticas. Solo ingresa tus números y el sistema hace el resto. Incluye control de gastos diario y planificador mensual.</p>
+          <span class="bonus-value">Valor: $29 USD</span>
+        </div>
+        <div class="bonus-card">
+          <span class="bonus-card-ribbon">BONUS</span>
+          <div class="bonus-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+          <h3>Toolkit financiero completo</h3>
+          <p>Calculadoras de deuda, rastreadores de gastos y planificadores de ahorro en un solo archivo. Todo lo que necesitas para tener una visión clara de tus finanzas.</p>
+          <span class="bonus-value">Valor: $39 USD</span>
+        </div>
+        <div class="bonus-card">
+          <span class="bonus-card-ribbon">BONUS</span>
+          <div class="bonus-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <h3>Guía de acción rápida</h3>
+          <p>Resumen ejecutivo con los pasos más importantes para quienes quieren resultados desde el día uno. Ideal si no tienes tiempo de leer todo de inmediato.</p>
+          <span class="bonus-value">Valor: $19 USD</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ COUNTDOWN BAR ════ -->
+  <div class="countdown-bar">
+    ⚡ Precio de lanzamiento disponible por tiempo limitado.
+    <strong>la oferta vence en:</strong>
+    <span class="countdown-timer">
+      <span class="countdown-unit" id="cd-h">23</span>
+      <span class="countdown-sep">:</span>
+      <span class="countdown-unit" id="cd-m">59</span>
+      <span class="countdown-sep">:</span>
+      <span class="countdown-unit" id="cd-s">59</span>
+    </span>
+  </div>
+
+  <!-- ════ PRICING ════ -->
+  <section class="pricing" id="comprar">
+    <div class="container fade-up">
+      <span class="section-label">Precio de lanzamiento</span>
+      <h2 class="section-title">Invierte en tu libertad financiera hoy</h2>
+      <p class="section-desc">El costo de no actuar son miles de dólares en intereses. El costo de cambiar tu vida es menos de lo que gastas en una semana de café.</p>
+      <div class="price-card">
+        <div class="price-label">Paquete completo</div>
+        <div class="price-amount">$37</div>
+        <div class="price-original">Valor total: $204 USD</div>
+        <ul class="price-includes">
+          <li><span class="check-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> Ebook completo: 15 capítulos</li>
+          <li><span class="check-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> Guía de inversiones para principiantes</li>
+          <li><span class="check-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> Acceso a la comunidad en Telegram</li>
+          <li><span class="check-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> Guía de negociación con bancos</li>
+          <li><span class="check-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> Plantillas de presupuesto PRO en Excel</li>
+          <li><span class="check-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> Toolkit financiero con calculadoras</li>
+          <li><span class="check-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> Guía de acción rápida</li>
+          <li><span class="check-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span> Acceso inmediato tras la compra</li>
+        </ul>
+        <a href="https://pay.hotmart.com/A102578569Y?off=jezg3we9" class="cta-btn">
+          Descargar todo por $37
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="price-guarantee">Pago 100 % seguro · Acceso inmediato</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ ABOUT THE AUTHOR ════ -->
+  <section style="padding: 80px 24px; background: var(--cream);">
+    <div class="container fade-up" style="max-width: 800px;">
+      <span class="section-label">Quién está detrás</span>
+      <h2 class="section-title">Conoce a El Profe</h2>
+      <div class="author-card" style="display: flex; gap: 36px; align-items: center; margin-top: 40px; background: var(--white); border-radius: 20px; padding: 40px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+        <div style="flex-shrink: 0; text-align: center;">
+          <img src="owl_no_bg.png" alt="El Profe, creador de Vida Sin Deudas" style="width: 140px; height: 140px; object-fit: contain; border-radius: 16px; background: var(--purple-cream); padding: 12px;">
+        </div>
+        <div>
+          <p style="font-size: 0.95rem; color: var(--gray); line-height: 1.8; margin-bottom: 16px;">Vida Sin Deudas nació de una experiencia personal. Después de años atrapado en el ciclo de deudas, tarjetas al límite y estrés financiero, descubrí que el problema no era cuánto ganaba. Era que nadie me enseñó cómo funciona el dinero.</p>
+          <p style="font-size: 0.95rem; color: var(--gray); line-height: 1.8; margin-bottom: 16px;">Investigué, estudié y probé todo: desde Dave Ramsey hasta estrategias de negociación bancaria. Lo que funcionó lo condensé en este sistema de 5 pasos. Lo que no funcionó, lo eliminé.</p>
+          <p style="font-size: 0.95rem; color: var(--dark); line-height: 1.8; font-weight: 500;">El resultado: una guía práctica, sin relleno, con herramientas listas para usar desde el primer día.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ FAQ ════ -->
+  <section class="faq">
+    <div class="container fade-up">
+      <span class="section-label">Preguntas frecuentes</span>
+      <h2 class="section-title">Resolvemos tus dudas</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿Cómo recibo el ebook después de comprar?</span>
+            <svg class="icon icon-sm faq-arrow" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Inmediatamente después de tu compra recibirás un correo electrónico con el enlace de descarga. También podrás acceder desde tu cuenta en cualquier momento.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿Funciona si gano poco dinero?</span>
+            <svg class="icon icon-sm faq-arrow" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Absolutamente. Este libro está diseñado para cualquier nivel de ingreso. El sistema se adapta a tu realidad financiera actual, sin importar cuánto ganes.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿En qué formato viene el ebook?</span>
+            <svg class="icon icon-sm faq-arrow" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">El ebook viene en formato PDF, legible en cualquier dispositivo: celular, tablet o computadora. Las plantillas vienen en formato Excel (.xlsx).</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿Es diferente a otros libros de finanzas?</span>
+            <svg class="icon icon-sm faq-arrow" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Sí. Este libro combina la parte emocional y psicológica del dinero con un sistema práctico paso a paso. Incluye ejemplos reales de Latinoamérica, ejercicios en cada capítulo y herramientas descargables que puedes usar desde el día uno.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>¿Qué métodos de pago aceptan?</span>
+            <svg class="icon icon-sm faq-arrow" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Puedes pagar con tarjeta de crédito, tarjeta de débito, PayPal y otros métodos locales según tu país. El proceso es 100 % seguro.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ FINAL CTA ════ -->
+  <section class="final-cta">
+    <div class="container fade-up">
+      <h2>El momento perfecto para salir de deudas<br>fue hace 5 años.<br><span style="color: var(--gold-light);">El segundo mejor momento es hoy.</span></h2>
+      <p>Cada día que pasa, los intereses crecen. Cada día que actúas, te acercas más a tu libertad. La decisión es tuya.</p>
+      <a href="https://pay.hotmart.com/A102578569Y?off=jezg3we9" class="cta-btn">
+        Empezar mi plan hoy, $37
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ════ FOOTER ════ -->
+  <footer>
+    <p>© 2026 Vida Sin Deudas. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- ════ FLOATING WHATSAPP ════ -->
+  <div class="whatsapp-tooltip">Tienes dudas? Escríbenos</div>
+  <a href="https://wa.link/p75a5x" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Chat en WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- ════ FLOATING CTA (mobile) ════ -->
+  <div class="floating-cta">
+    <a href="https://pay.hotmart.com/A102578569Y?off=jezg3we9" class="cta-btn">Descargar mi guía por $37</a>
+  </div>
+
+  <!-- ════ SCRIPTS ════ -->
+  <script>
+    // Countdown timer: resets to 23:59:59 each session
+    (function() {
+      const total = 23 * 3600 + 59 * 60 + 59;
+      const start = Date.now();
+      function pad(n) { return String(n).padStart(2, '0'); }
+      function tick() {
+        const elapsed = Math.floor((Date.now() - start) / 1000);
+        const remaining = Math.max(total - elapsed, 0);
+        const h = Math.floor(remaining / 3600);
+        const m = Math.floor((remaining % 3600) / 60);
+        const s = remaining % 60;
+        document.getElementById('cd-h').textContent = pad(h);
+        document.getElementById('cd-m').textContent = pad(m);
+        document.getElementById('cd-s').textContent = pad(s);
+        if (remaining > 0) setTimeout(tick, 1000);
+      }
+      tick();
+    })();
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const wasActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!wasActive) item.classList.add('active');
+      });
+    });
+
+    // Scroll fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
