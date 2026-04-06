@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vida Sin Deudas: Guía Completa para tu Libertad Financiera</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E6592NJNM1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-E6592NJNM1');
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -1466,6 +1474,21 @@
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Track CTA clicks in GA4
+    document.querySelectorAll('.cta-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        gtag('event', 'cta_click', {
+          event_category: 'conversion',
+          event_label: btn.textContent.trim()
+        });
+      });
+    });
+
+    // Track WhatsApp clicks
+    document.querySelector('.whatsapp-float')?.addEventListener('click', () => {
+      gtag('event', 'whatsapp_click', { event_category: 'engagement' });
+    });
   </script>
 </body>
 </html>
