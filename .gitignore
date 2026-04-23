@@ -3,3 +3,8 @@
 !book-cover.png
 !owl_no_bg.png
 !.gitignore
+!.gitkeep
+!bots/
+!bots/**
+!tests/
+!tests/**
