@@ -42,3 +42,15 @@ def is_emoji_only(text: str) -> bool:
     """Return True if text contains no real word/character content."""
     stripped = _EMOJI_RE.sub("", text).strip()
     return stripped == ""
+
+
+def load_replied_ids() -> set:
+    """Load the set of already-replied comment IDs from disk."""
+    if not REPLIED_IDS_PATH.exists():
+        return set()
+    return set(json.loads(REPLIED_IDS_PATH.read_text()))
+
+
+def save_replied_ids(ids: set) -> None:
+    """Save the set of replied comment IDs to disk as JSON."""
+    REPLIED_IDS_PATH.write_text(json.dumps(list(ids)))
