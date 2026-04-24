@@ -228,6 +228,9 @@ def run() -> None:
 
         if cid in replied_ids:
             continue
+        if commenter_id == FB_PAGE_ID:
+            replied_ids.add(cid)
+            continue
         if is_emoji_only(text):
             logger.info("Skipping emoji-only comment %s", cid)
             replied_ids.add(cid)
