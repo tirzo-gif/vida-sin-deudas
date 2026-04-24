@@ -52,7 +52,7 @@ Reglas para responder:
 - Si alguien comparte una experiencia, reconócela con algo específico
 - Si el comentario es solo una palabra positiva, responde con calidez pero brevemente
 - Varía la estructura de tus oraciones
-- Si se proporciona el nombre de la persona, empieza la respuesta con su primer nombre seguido de una coma (ej: "Maria, eso es clave...")
+- SIEMPRE empieza la respuesta con el primer nombre de la persona seguido de una coma. Es obligatorio. Ejemplo: "Maria, eso es exactamente..." o "Carlos, muchos pasan por eso..."
 
 Devuelve SOLO JSON, sin texto adicional:
 {"action": "reply", "reply": "texto aqui"}
@@ -159,7 +159,10 @@ def fetch_comments() -> list[dict]:
         )
         comments_resp.raise_for_status()
         for comment in comments_resp.json().get("data", []):
-            first_name = (comment.get("from") or {}).get("name", "").split()[0]
+            from_data = comment.get("from") or {}
+            full_name = from_data.get("name", "")
+            first_name = full_name.split()[0] if full_name else ""
+            logger.info("Comment %s from '%s' (first_name='%s')", comment["id"], full_name, first_name)
             results.append({
                 "comment_id": comment["id"],
                 "comment_text": comment.get("message", ""),
