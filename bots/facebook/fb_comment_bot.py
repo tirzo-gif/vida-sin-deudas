@@ -125,7 +125,9 @@ def parse_claude_response(raw: str) -> tuple[str, str]:
     action is 'reply' or 'skip'. On parse failure returns ('skip', reason).
     """
     try:
-        data = json.loads(raw)
+        cleaned = re.sub(r"^```[a-z]*\n?", "", raw.strip())
+        cleaned = re.sub(r"\n?```$", "", cleaned).strip()
+        data = json.loads(cleaned)
         action = data.get("action")
         if action == "reply":
             return "reply", data.get("reply", "")
