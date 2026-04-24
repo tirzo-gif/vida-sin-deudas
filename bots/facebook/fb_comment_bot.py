@@ -108,6 +108,33 @@ def refresh_token() -> None:
     logger.info("Token refreshed successfully")
 
 
+def seed_replied_ids() -> set:
+    """Fetch all current comment IDs and mark as seen without replying.
+    Called on fresh startup to avoid re-replying after a redeploy."""
+    logger.info("Fresh start detected — seeding existing comment IDs...")
+    ids = set()
+    try:
+        posts_resp = _fb_session.get(
+            f"{GRAPH_BASE}/{FB_PAGE_ID}/posts",
+            params={"fields": "id", "limit": 10},
+            timeout=15,
+        )
+        posts_resp.raise_for_status()
+        for post in posts_resp.json().get("data", []):
+            comments_resp = _fb_session.get(
+                f"{GRAPH_BASE}/{post['id']}/comments",
+                params={"fields": "id", "limit": 100},
+                timeout=15,
+            )
+            comments_resp.raise_for_status()
+            for comment in comments_resp.json().get("data", []):
+                ids.add(comment["id"])
+        logger.info("Seeded %d existing comment IDs — only new comments will be replied to", len(ids))
+    except Exception as exc:
+        logger.warning("Could not seed replied IDs: %s", exc)
+    return ids
+
+
 def load_replied_ids() -> set:
     """Load the set of already-replied comment IDs from disk."""
     if not REPLIED_IDS_PATH.exists():
@@ -265,6 +292,8 @@ if __name__ == "__main__":
         refresh_token()
     except Exception as exc:
         logger.warning("Token refresh on startup failed, using existing token: %s", exc)
+    if not REPLIED_IDS_PATH.exists():
+        save_replied_ids(seed_replied_ids())
     run()
     scheduler = BlockingScheduler()
     scheduler.add_job(run, "interval", minutes=5, max_instances=1)
