@@ -57,7 +57,7 @@ Devuelve SOLO JSON, sin texto adicional:
 _anthropic_client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
 _fb_session = requests.Session()
-_fb_session.headers.update({"Authorization": f"Bearer {FB_PAGE_ACCESS_TOKEN}"})
+_fb_session.params.update({"access_token": FB_PAGE_ACCESS_TOKEN})
 
 _EMOJI_RE = re.compile(
     "[\U0001F600-\U0001F64F"
@@ -173,7 +173,7 @@ def run() -> None:
     try:
         comments = fetch_comments()
     except requests.RequestException as exc:
-        logger.error("Graph API error fetching comments: %s", exc)
+        logger.error("Graph API error fetching comments: %s", exc.response.status_code if exc.response is not None else exc)
         return
 
     for item in comments:
@@ -199,7 +199,7 @@ def run() -> None:
                 post_reply(cid, content)
                 replied_ids.add(cid)
             except requests.RequestException as exc:
-                logger.error("Graph API error posting reply to %s: %s", cid, exc)
+                logger.error("Graph API error posting reply to %s: %s", cid, exc.response.status_code if exc.response is not None else exc)
         else:
             logger.info("Skipping comment %s (reason: %s)", cid, content)
             replied_ids.add(cid)
