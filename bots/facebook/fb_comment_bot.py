@@ -23,8 +23,11 @@ logger = logging.getLogger(__name__)
 FB_PAGE_ACCESS_TOKEN = os.environ["FB_PAGE_ACCESS_TOKEN"]
 FB_PAGE_ID = os.environ["FB_PAGE_ID"]
 ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
+FB_APP_ID = os.environ["FB_APP_ID"]
+FB_APP_SECRET = os.environ["FB_APP_SECRET"]
 GRAPH_BASE = "https://graph.facebook.com/v21.0"
 REPLIED_IDS_PATH = Path(__file__).parent / "replied_ids.json"
+TOKEN_PATH = Path(__file__).parent / "fb_token.json"
 
 SYSTEM_PROMPT = """Eres El Profe, la voz detrás de Libertad Financiera Ya. \
 Evalúas y respondes comentarios en Facebook.
@@ -76,6 +79,33 @@ def is_emoji_only(text: str) -> bool:
     """Return True if text contains no real word/character content."""
     stripped = _EMOJI_RE.sub("", text).strip()
     return stripped == ""
+
+
+def load_token() -> str:
+    """Load token from file if available, else fall back to env var."""
+    if TOKEN_PATH.exists():
+        return json.loads(TOKEN_PATH.read_text())["token"]
+    return FB_PAGE_ACCESS_TOKEN
+
+
+def refresh_token() -> None:
+    """Exchange current token for a new long-lived token and persist it."""
+    current = load_token()
+    resp = requests.get(
+        "https://graph.facebook.com/oauth/access_token",
+        params={
+            "grant_type": "fb_exchange_token",
+            "client_id": FB_APP_ID,
+            "client_secret": FB_APP_SECRET,
+            "fb_exchange_token": current,
+        },
+        timeout=15,
+    )
+    resp.raise_for_status()
+    new_token = resp.json()["access_token"]
+    TOKEN_PATH.write_text(json.dumps({"token": new_token}))
+    _fb_session.params.update({"access_token": new_token})
+    logger.info("Token refreshed successfully")
 
 
 def load_replied_ids() -> set:
@@ -219,7 +249,12 @@ def run() -> None:
 
 if __name__ == "__main__":
     logger.info("Starting FB comment bot, polling every 5 minutes")
+    try:
+        refresh_token()
+    except Exception as exc:
+        logger.warning("Token refresh on startup failed, using existing token: %s", exc)
     run()
     scheduler = BlockingScheduler()
     scheduler.add_job(run, "interval", minutes=5, max_instances=1)
+    scheduler.add_job(refresh_token, "interval", days=50, max_instances=1)
     scheduler.start()

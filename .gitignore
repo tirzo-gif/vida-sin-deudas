@@ -7,5 +7,6 @@
 !bots/
 !bots/**
 bots/facebook/replied_ids.json
+bots/facebook/fb_token.json
 !tests/
 !tests/**
