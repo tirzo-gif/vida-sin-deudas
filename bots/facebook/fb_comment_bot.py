@@ -141,7 +141,7 @@ def post_reply(comment_id: str, reply_text: str) -> None:
     url = f"{GRAPH_BASE}/{comment_id}/replies"
     resp = _fb_session.post(
         url,
-        data={"message": reply_text},
+        params={"message": reply_text},
         timeout=15,
     )
     resp.raise_for_status()
