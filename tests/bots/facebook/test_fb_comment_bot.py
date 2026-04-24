@@ -11,11 +11,9 @@ os.environ.setdefault("FB_PAGE_ACCESS_TOKEN", "x")
 os.environ.setdefault("FB_PAGE_ID", "x")
 os.environ.setdefault("ANTHROPIC_API_KEY", "x")
 
-# Import the module directly from file path
-spec = importlib.util.spec_from_file_location(
-    "fb_comment_bot",
-    "/Users/tirzoquintero/Desktop/Claude/Vida sin Deudas/.worktrees/fb-comment-bot/bots/facebook/fb_comment_bot.py"
-)
+# Import the module directly from file path (path derived from this file's location)
+_BOT_PATH = Path(__file__).parents[3] / "bots" / "facebook" / "fb_comment_bot.py"
+spec = importlib.util.spec_from_file_location("fb_comment_bot", _BOT_PATH)
 fb_comment_bot = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(fb_comment_bot)
 

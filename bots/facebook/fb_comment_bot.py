@@ -1,5 +1,5 @@
 """
-FB Comment Bot — Libertad Financiera Ya
+FB Comment Bot: Libertad Financiera Ya
 Polls every 5 minutes, auto-replies as El Profe.
 Run: python fb_comment_bot.py
 """
@@ -56,6 +56,9 @@ Devuelve SOLO JSON, sin texto adicional:
 
 _anthropic_client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
+_fb_session = requests.Session()
+_fb_session.headers.update({"Authorization": f"Bearer {FB_PAGE_ACCESS_TOKEN}"})
+
 _EMOJI_RE = re.compile(
     "[\U0001F600-\U0001F64F"
     "\U0001F300-\U0001F5FF"
@@ -105,9 +108,9 @@ def parse_claude_response(raw: str) -> tuple[str, str]:
 def fetch_comments() -> list[dict]:
     """Return list of {comment_id, comment_text, post_text} for recent comments."""
     posts_url = f"{GRAPH_BASE}/{FB_PAGE_ID}/posts"
-    posts_resp = requests.get(
+    posts_resp = _fb_session.get(
         posts_url,
-        params={"fields": "id,message", "limit": 10, "access_token": FB_PAGE_ACCESS_TOKEN},
+        params={"fields": "id,message", "limit": 10},
         timeout=15,
     )
     posts_resp.raise_for_status()
@@ -118,9 +121,9 @@ def fetch_comments() -> list[dict]:
         post_id = post.get("id")
         post_text = post.get("message", "")
         comments_url = f"{GRAPH_BASE}/{post_id}/comments"
-        comments_resp = requests.get(
+        comments_resp = _fb_session.get(
             comments_url,
-            params={"fields": "id,message,from", "limit": 100, "access_token": FB_PAGE_ACCESS_TOKEN},
+            params={"fields": "id,message", "limit": 100},
             timeout=15,
         )
         comments_resp.raise_for_status()
@@ -136,9 +139,8 @@ def fetch_comments() -> list[dict]:
 def post_reply(comment_id: str, reply_text: str) -> None:
     """Post a reply to a Facebook comment."""
     url = f"{GRAPH_BASE}/{comment_id}/replies"
-    resp = requests.post(
+    resp = _fb_session.post(
         url,
-        params={"access_token": FB_PAGE_ACCESS_TOKEN},
         data={"message": reply_text},
         timeout=15,
     )
@@ -153,7 +155,7 @@ def generate_reply(post_text: str, comment_text: str) -> tuple[str, str]:
     user_msg = f"Publicación: {post_text}\n\nComentario: {comment_text}"
     response = _anthropic_client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=256,
+        max_tokens=512,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_msg}],
     )
@@ -187,7 +189,7 @@ def run() -> None:
         try:
             action, content = generate_reply(post_text, text)
         except Exception as exc:
-            logger.error("Claude error for comment %s: %s — will retry next cycle", cid, exc)
+            logger.error("Claude error for comment %s: %s, will retry next cycle", cid, exc)
             continue
 
         if action == "reply":
@@ -205,7 +207,8 @@ def run() -> None:
 
 
 if __name__ == "__main__":
-    logger.info("Starting FB comment bot — polling every 5 minutes")
+    logger.info("Starting FB comment bot, polling every 5 minutes")
+    run()
     scheduler = BlockingScheduler()
     scheduler.add_job(run, "interval", minutes=5, max_instances=1)
     scheduler.start()

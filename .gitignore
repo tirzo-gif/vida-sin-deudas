@@ -6,5 +6,6 @@
 !.gitkeep
 !bots/
 !bots/**
+bots/facebook/replied_ids.json
 !tests/
 !tests/**
