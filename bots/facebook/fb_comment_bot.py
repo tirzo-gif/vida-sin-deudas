@@ -159,3 +159,53 @@ def generate_reply(post_text: str, comment_text: str) -> tuple[str, str]:
     )
     raw = response.content[0].text
     return parse_claude_response(raw)
+
+
+def run() -> None:
+    """One poll cycle: fetch, filter, classify, reply, persist."""
+    logger.info("Poll cycle starting")
+    replied_ids = load_replied_ids()
+
+    try:
+        comments = fetch_comments()
+    except requests.RequestException as exc:
+        logger.error("Graph API error fetching comments: %s", exc)
+        return
+
+    for item in comments:
+        cid = item["comment_id"]
+        text = item["comment_text"]
+        post_text = item["post_text"]
+
+        if cid in replied_ids:
+            continue
+        if is_emoji_only(text):
+            logger.info("Skipping emoji-only comment %s", cid)
+            replied_ids.add(cid)
+            continue
+
+        try:
+            action, content = generate_reply(post_text, text)
+        except Exception as exc:
+            logger.error("Claude error for comment %s: %s — will retry next cycle", cid, exc)
+            continue
+
+        if action == "reply":
+            try:
+                post_reply(cid, content)
+                replied_ids.add(cid)
+            except requests.RequestException as exc:
+                logger.error("Graph API error posting reply to %s: %s", cid, exc)
+        else:
+            logger.info("Skipping comment %s (reason: %s)", cid, content)
+            replied_ids.add(cid)
+
+    save_replied_ids(replied_ids)
+    logger.info("Poll cycle complete. Total tracked: %d", len(replied_ids))
+
+
+if __name__ == "__main__":
+    logger.info("Starting FB comment bot — polling every 5 minutes")
+    scheduler = BlockingScheduler()
+    scheduler.add_job(run, "interval", minutes=5, max_instances=1)
+    scheduler.start()
