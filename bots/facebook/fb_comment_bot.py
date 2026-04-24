@@ -161,24 +161,27 @@ def fetch_comments() -> list[dict]:
         for comment in comments_resp.json().get("data", []):
             from_data = comment.get("from") or {}
             full_name = from_data.get("name", "")
+            commenter_id = from_data.get("id", "")
             first_name = full_name.split()[0] if full_name else ""
-            logger.info("Comment %s from '%s' (first_name='%s')", comment["id"], full_name, first_name)
+            logger.info("Comment %s from '%s' id=%s", comment["id"], full_name, commenter_id)
             results.append({
                 "comment_id": comment["id"],
                 "comment_text": comment.get("message", ""),
                 "commenter_name": first_name,
+                "commenter_id": commenter_id,
                 "post_text": post_text,
                 "post_id": post_id,
             })
     return results
 
 
-def post_reply(post_id: str, reply_text: str) -> None:
-    """Post a reply as a page comment on the post."""
+def post_reply(post_id: str, reply_text: str, commenter_id: str = "") -> None:
+    """Post a reply as a page comment on the post, tagging the commenter."""
+    tag = f"@[{commenter_id}] " if commenter_id else ""
     url = f"{GRAPH_BASE}/{post_id}/comments"
     resp = _fb_session.post(
         url,
-        params={"message": reply_text},
+        params={"message": f"{tag}{reply_text}"},
         timeout=15,
     )
     resp.raise_for_status()
@@ -221,6 +224,7 @@ def run() -> None:
         post_text = item["post_text"]
         post_id = item["post_id"]
         commenter_name = item.get("commenter_name", "")
+        commenter_id = item.get("commenter_id", "")
 
         if cid in replied_ids:
             continue
@@ -237,7 +241,7 @@ def run() -> None:
 
         if action == "reply":
             try:
-                post_reply(post_id, content)
+                post_reply(post_id, content, commenter_id)
                 replied_ids.add(cid)
             except requests.RequestException as exc:
                 body = exc.response.text if exc.response is not None else str(exc)
