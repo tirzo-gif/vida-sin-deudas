@@ -49,6 +49,7 @@ Reglas para responder:
 - Si alguien comparte una experiencia, reconócela con algo específico
 - Si el comentario es solo una palabra positiva, responde con calidez pero brevemente
 - Varía la estructura de tus oraciones
+- Si se proporciona el nombre de la persona, empieza la respuesta con su primer nombre seguido de una coma (ej: "Maria, eso es clave...")
 
 Devuelve SOLO JSON, sin texto adicional:
 {"action": "reply", "reply": "texto aqui"}
@@ -123,14 +124,16 @@ def fetch_comments() -> list[dict]:
         comments_url = f"{GRAPH_BASE}/{post_id}/comments"
         comments_resp = _fb_session.get(
             comments_url,
-            params={"fields": "id,message", "limit": 100},
+            params={"fields": "id,message,from", "limit": 100},
             timeout=15,
         )
         comments_resp.raise_for_status()
         for comment in comments_resp.json().get("data", []):
+            first_name = (comment.get("from") or {}).get("name", "").split()[0]
             results.append({
                 "comment_id": comment["id"],
                 "comment_text": comment.get("message", ""),
+                "commenter_name": first_name,
                 "post_text": post_text,
                 "post_id": post_id,
             })
@@ -149,11 +152,12 @@ def post_reply(post_id: str, reply_text: str) -> None:
     logger.info("Posted reply on post %s", post_id)
 
 
-def generate_reply(post_text: str, comment_text: str) -> tuple[str, str]:
+def generate_reply(post_text: str, comment_text: str, commenter_name: str) -> tuple[str, str]:
     """Call Claude to classify and optionally draft a reply.
     Returns (action, content): action is 'reply' or 'skip'.
     """
-    user_msg = f"Publicación: {post_text}\n\nComentario: {comment_text}"
+    name_line = f"Nombre: {commenter_name}\n" if commenter_name else ""
+    user_msg = f"Publicación: {post_text}\n\n{name_line}Comentario: {comment_text}"
     response = _anthropic_client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=512,
@@ -182,6 +186,7 @@ def run() -> None:
         text = item["comment_text"]
         post_text = item["post_text"]
         post_id = item["post_id"]
+        commenter_name = item.get("commenter_name", "")
 
         if cid in replied_ids:
             continue
@@ -191,7 +196,7 @@ def run() -> None:
             continue
 
         try:
-            action, content = generate_reply(post_text, text)
+            action, content = generate_reply(post_text, text, commenter_name)
         except Exception as exc:
             logger.error("Claude error for comment %s: %s, will retry next cycle", cid, exc)
             continue
