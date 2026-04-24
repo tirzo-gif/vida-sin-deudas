@@ -132,20 +132,21 @@ def fetch_comments() -> list[dict]:
                 "comment_id": comment["id"],
                 "comment_text": comment.get("message", ""),
                 "post_text": post_text,
+                "post_id": post_id,
             })
     return results
 
 
-def post_reply(comment_id: str, reply_text: str) -> None:
-    """Post a reply to a Facebook comment."""
-    url = f"{GRAPH_BASE}/{comment_id}/replies"
+def post_reply(post_id: str, reply_text: str) -> None:
+    """Post a reply as a page comment on the post."""
+    url = f"{GRAPH_BASE}/{post_id}/comments"
     resp = _fb_session.post(
         url,
         params={"message": reply_text},
         timeout=15,
     )
     resp.raise_for_status()
-    logger.info("Replied to comment %s", comment_id)
+    logger.info("Posted reply on post %s", post_id)
 
 
 def generate_reply(post_text: str, comment_text: str) -> tuple[str, str]:
@@ -180,6 +181,7 @@ def run() -> None:
         cid = item["comment_id"]
         text = item["comment_text"]
         post_text = item["post_text"]
+        post_id = item["post_id"]
 
         if cid in replied_ids:
             continue
@@ -196,7 +198,7 @@ def run() -> None:
 
         if action == "reply":
             try:
-                post_reply(cid, content)
+                post_reply(post_id, content)
                 replied_ids.add(cid)
             except requests.RequestException as exc:
                 body = exc.response.text if exc.response is not None else str(exc)
