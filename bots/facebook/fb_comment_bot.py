@@ -54,3 +54,19 @@ def load_replied_ids() -> set:
 def save_replied_ids(ids: set) -> None:
     """Save the set of replied comment IDs to disk as JSON."""
     REPLIED_IDS_PATH.write_text(json.dumps(list(ids)))
+
+
+def parse_claude_response(raw: str) -> tuple[str, str]:
+    """Parse Claude's JSON response. Returns (action, content) tuple.
+    action is 'reply' or 'skip'. On parse failure returns ('skip', reason).
+    """
+    try:
+        data = json.loads(raw)
+        action = data.get("action")
+        if action == "reply":
+            return "reply", data.get("reply", "")
+        if action == "skip":
+            return "skip", data.get("reason", "")
+        return "skip", f"unknown action: {action}"
+    except (json.JSONDecodeError, AttributeError) as exc:
+        return "skip", f"parse error: {exc}"

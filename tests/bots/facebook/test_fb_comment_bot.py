@@ -78,3 +78,33 @@ def test_save_replied_ids_writes_json_array():
         content = json.loads(path.read_text())
     assert isinstance(content, list)
     assert "abc" in content
+
+
+parse_claude_response = fb_comment_bot.parse_claude_response
+
+
+def test_parse_reply_action():
+    raw = '{"action": "reply", "reply": "Buena pregunta, aqui va el consejo."}'
+    action, content = parse_claude_response(raw)
+    assert action == "reply"
+    assert content == "Buena pregunta, aqui va el consejo."
+
+
+def test_parse_skip_action():
+    raw = '{"action": "skip", "reason": "spam"}'
+    action, content = parse_claude_response(raw)
+    assert action == "skip"
+    assert content == "spam"
+
+
+def test_parse_malformed_returns_skip():
+    raw = "no json here"
+    action, content = parse_claude_response(raw)
+    assert action == "skip"
+    assert "parse" in content.lower()
+
+
+def test_parse_missing_action_returns_skip():
+    raw = '{"reply": "hello"}'
+    action, content = parse_claude_response(raw)
+    assert action == "skip"
