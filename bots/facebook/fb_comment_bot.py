@@ -208,7 +208,8 @@ def run() -> None:
     try:
         comments = fetch_comments()
     except requests.RequestException as exc:
-        logger.error("Graph API error fetching comments: %s", exc.response.status_code if exc.response is not None else exc)
+        body = exc.response.text if exc.response is not None else str(exc)
+        logger.error("Graph API error fetching comments: %s | %s", exc.response.status_code if exc.response is not None else "no response", body)
         return
 
     for item in comments:
