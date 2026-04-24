@@ -236,6 +236,9 @@ def generate_reply(post_text: str, comment_text: str, commenter_name: str) -> tu
 
 def run() -> None:
     """One poll cycle: fetch, filter, classify, reply, persist."""
+    if os.environ.get("BOT_PAUSED", "").lower() == "true":
+        logger.info("BOT_PAUSED=true — skipping cycle")
+        return
     logger.info("Poll cycle starting")
     replied_ids = load_replied_ids()
 
