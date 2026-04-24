@@ -70,3 +70,47 @@ def parse_claude_response(raw: str) -> tuple[str, str]:
         return "skip", f"unknown action: {action}"
     except (json.JSONDecodeError, AttributeError) as exc:
         return "skip", f"parse error: {exc}"
+
+
+def fetch_comments() -> list[dict]:
+    """Return list of {comment_id, comment_text, post_text} for recent comments."""
+    posts_url = f"{GRAPH_BASE}/{FB_PAGE_ID}/posts"
+    posts_resp = requests.get(
+        posts_url,
+        params={"fields": "id,message", "limit": 10, "access_token": FB_PAGE_ACCESS_TOKEN},
+        timeout=15,
+    )
+    posts_resp.raise_for_status()
+    posts = posts_resp.json().get("data", [])
+
+    results = []
+    for post in posts:
+        post_id = post.get("id")
+        post_text = post.get("message", "")
+        comments_url = f"{GRAPH_BASE}/{post_id}/comments"
+        comments_resp = requests.get(
+            comments_url,
+            params={"fields": "id,message,from", "limit": 100, "access_token": FB_PAGE_ACCESS_TOKEN},
+            timeout=15,
+        )
+        comments_resp.raise_for_status()
+        for comment in comments_resp.json().get("data", []):
+            results.append({
+                "comment_id": comment["id"],
+                "comment_text": comment.get("message", ""),
+                "post_text": post_text,
+            })
+    return results
+
+
+def post_reply(comment_id: str, reply_text: str) -> None:
+    """Post a reply to a Facebook comment."""
+    url = f"{GRAPH_BASE}/{comment_id}/replies"
+    resp = requests.post(
+        url,
+        params={"access_token": FB_PAGE_ACCESS_TOKEN},
+        data={"message": reply_text},
+        timeout=15,
+    )
+    resp.raise_for_status()
+    logger.info("Replied to comment %s", comment_id)
