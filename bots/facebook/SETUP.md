@@ -1,4 +1,4 @@
-# FB Comment Bot — Libertad Financiera Ya
+# FB Comment Bot: Libertad Financiera Ya
 
 Replies to Facebook page comments automatically as El Profe.
 
@@ -29,9 +29,9 @@ Note: Polling (not webhooks) does NOT require App Review.
 2. Set root directory: `bots/facebook`
 3. Start command: `python fb_comment_bot.py`
 4. Add environment variables:
-   - `FB_PAGE_ACCESS_TOKEN` — long-lived page token from step above
-   - `FB_PAGE_ID` — numeric ID of "Libertad Financiera Ya"
-   - `ANTHROPIC_API_KEY` — your Anthropic key
+   - `FB_PAGE_ACCESS_TOKEN`: long-lived page token from step above
+   - `FB_PAGE_ID`: numeric ID of "Libertad Financiera Ya"
+   - `ANTHROPIC_API_KEY`: your Anthropic key
 5. Add a Railway Volume mounted at `/app/bots/facebook` so `replied_ids.json` persists across deploys
 
 ## Local Test Run
