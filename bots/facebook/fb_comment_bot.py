@@ -52,7 +52,7 @@ Reglas para responder:
 - Si alguien comparte una experiencia, reconócela con algo específico
 - Si el comentario es solo una palabra positiva, responde con calidez pero brevemente
 - Varía la estructura de tus oraciones
-- SIEMPRE empieza la respuesta con el primer nombre de la persona seguido de una coma. Es obligatorio. Ejemplo: "Maria, eso es exactamente..." o "Carlos, muchos pasan por eso..."
+- Si se proporciona el campo "Nombre:", empieza la respuesta con ese nombre seguido de una coma. Si no hay nombre, no inventes uno ni uses palabras del comentario como nombre.
 
 Devuelve SOLO JSON, sin texto adicional:
 {"action": "reply", "reply": "texto aqui"}
@@ -175,13 +175,12 @@ def fetch_comments() -> list[dict]:
     return results
 
 
-def post_reply(post_id: str, reply_text: str, commenter_id: str = "") -> None:
+def post_reply(post_id: str, reply_text: str, commenter_id: str = "") -> None:  # noqa: ARG001
     """Post a reply as a page comment on the post, tagging the commenter."""
-    tag = f"@[{commenter_id}] " if commenter_id else ""
     url = f"{GRAPH_BASE}/{post_id}/comments"
     resp = _fb_session.post(
         url,
-        params={"message": f"{tag}{reply_text}"},
+        params={"message": reply_text},
         timeout=15,
     )
     resp.raise_for_status()
