@@ -199,7 +199,8 @@ def run() -> None:
                 post_reply(cid, content)
                 replied_ids.add(cid)
             except requests.RequestException as exc:
-                logger.error("Graph API error posting reply to %s: %s", cid, exc.response.status_code if exc.response is not None else exc)
+                body = exc.response.text if exc.response is not None else str(exc)
+                logger.error("Graph API error posting reply to %s: %s", cid, body)
         else:
             logger.info("Skipping comment %s (reason: %s)", cid, content)
             replied_ids.add(cid)
