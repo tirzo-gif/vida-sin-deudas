@@ -159,7 +159,9 @@ def generate_reply(post_text: str, comment_text: str) -> tuple[str, str]:
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_msg}],
     )
-    raw = response.content[0].text
+    raw = response.content[0].text.strip() if response.content else ""
+    if not raw:
+        return "skip", "empty response from Claude"
     return parse_claude_response(raw)
 
 
