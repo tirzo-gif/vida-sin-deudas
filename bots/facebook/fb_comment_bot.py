@@ -90,7 +90,7 @@ def load_token() -> str:
 
 def refresh_token() -> None:
     """Exchange current token for a new long-lived token and persist it."""
-    current = load_token()
+    current = FB_PAGE_ACCESS_TOKEN
     resp = requests.get(
         "https://graph.facebook.com/oauth/access_token",
         params={
